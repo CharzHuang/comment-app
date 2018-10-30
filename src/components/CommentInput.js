@@ -1,38 +1,43 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class CommentInput extends Component {
 
   static propTypes = {
+    userName: PropTypes.string,
     onSubmit: PropTypes.func
-  };
+  }
 
-  constructor() {
-    super();
+  static defaultProps = {
+    userName: ''
+  }
+
+  constructor(props) {
+    super(props)
     this.state = {
-      userName: '',
+      userName: props.userName,
       content: ''
-    };
+    }
   }
 
   handleUserNameChange(event) {
     this.setState({
       userName: event.target.value
-    });
+    })
   }
 
   handleContentChange(event) {
     this.setState({
       content: event.target.value
-    });
+    })
   }
 
   handleSubmit() {
     if (this.props.onSubmit) {
-      const { userName, content } = this.state;
-      this.props.onSubmit({ userName, content });
+      const { userName, content } = this.state
+      this.props.onSubmit({ userName, content })
     }
-    this.setState({ content: '' });
+    this.setState({ content: '' })
   }
 
   render() {
@@ -60,8 +65,8 @@ class CommentInput extends Component {
           </button>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default CommentInput;
+export default CommentInput

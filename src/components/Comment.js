@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class Comment extends Component {
 
@@ -7,11 +7,11 @@ class Comment extends Component {
     comment: PropTypes.object.isRequired,
     onDeleteComment: PropTypes.func,
     index: PropTypes.number
-  };
+  }
 
   handleDeleteComment() {
     if (this.props.onDeleteComment) {
-      this.props.onDeleteComment(this.props.index);
+      this.props.onDeleteComment(this.props.index)
     }
   }
 
@@ -28,8 +28,8 @@ class Comment extends Component {
           Delete
         </span>
       </div>
-    );
+    )
   }
 }
 
-export default Comment;
+export default Comment
