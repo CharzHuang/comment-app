@@ -1,20 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import Loadable from 'react-loadable'
 import { Provider } from 'react-redux'
+
 import './index.css'
 import App from './App'
-import commentsReducer from './reducers/comments'
+import configureStore from './store/configureStore'
+
 import * as serviceWorker from './serviceWorker'
 
-const store = createStore(commentsReducer)
+const store = configureStore(window.__PRELOADED_STATE__ || {})
 
-ReactDOM.render( 
+delete window.__PRELOADED_STATE__
+
+const AppBundle = (
   <Provider store={store}>
     <App />
-  </Provider> ,
-  document.getElementById('root')
+  </Provider>
 )
+
+window.onload = () => {
+  Loadable.preloadReady()
+    .then(() => {
+      ReactDOM.hydrate(
+        AppBundle,
+        document.getElementById('root')
+      )
+    })
+  }
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

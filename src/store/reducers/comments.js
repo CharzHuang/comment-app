@@ -2,7 +2,7 @@ const ADD_COMMENT = 'ADD_COMMENT'
 const DELETE_COMMENT = 'DELETE_COMMENT'
 
 export default function (state, action) {
-  if (!state) {
+  if (!state || !state.comments) {
     state = {
       comments: []
     }

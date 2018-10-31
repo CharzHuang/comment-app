@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import CommentList from '../components/CommentList'
-import { deleteComment } from '../reducers/comments'
+import { deleteComment } from '../store/reducers/comments'
 
 class CommentListContainer extends Component {
   static PropTypes = {
