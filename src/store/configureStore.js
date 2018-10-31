@@ -1,15 +1,49 @@
-import {
-  createStore,
-  compose,
-  applyMiddleware,
-} from 'redux'
+import { createStore, compose, applyMiddleware } from "redux";
+import { connectRouter, routerMiddleware } from "connected-react-router";
+import ReduxThunk from "redux-thunk";
+import { createBrowserHistory, createMemoryHistory } from "history";
+import commentsReducer from "./reducers/comments";
 
-import ReduxThunk from 'redux-thunk'
+export const isServer = !(
+  typeof window !== "undefined" &&
+  window.document &&
+  window.document.createElement
+);
 
-import commentsReducer from './reducers/comments'
+export default (url = "/") => {
+  const history = isServer
+    ? createMemoryHistory({
+        initialEntries: [url]
+      })
+    : createBrowserHistory();
 
-const createStoreWithMiddleware = compose(applyMiddleware(ReduxThunk))(createStore)
+  const enhancers = [];
+  if (process.env.NODE_ENV === "development" && !isServer) {
+    const devToolsExtension = window.devToolsExtension;
 
-export default function configureStore(initialState = {}) {
-  return createStoreWithMiddleware(commentsReducer, initialState)
-}
+    if (typeof devToolsExtension === "function") {
+      enhancers.push(devToolsExtension());
+    }
+  }
+
+  const middlewares = [ReduxThunk, routerMiddleware(history)];
+  const composedEnhancers = compose(
+    applyMiddleware(...middlewares),
+    ...enhancers
+  );
+
+  const initialState = !isServer ? window.__PRELOADED_STATE__ : {};
+
+  if (!isServer) delete window.__PRELOADED_STATE__;
+
+  const store = createStore(
+    connectRouter(history)(commentsReducer),
+    initialState,
+    composedEnhancers
+  );
+
+  return {
+    store,
+    history
+  };
+};
