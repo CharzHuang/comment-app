@@ -16,7 +16,7 @@ class CommentInputContainer extends Component {
     }
   }
 
-  handleSubmitComment(comment) {
+  handleSubmitComment = (comment) => {
     if (!comment) return
     if (!comment.userName) return
     if (!comment.content) return
@@ -30,7 +30,7 @@ class CommentInputContainer extends Component {
     return (
       <CommentInput 
         userName={this.state.userName}
-        onSubmit={this.handleSubmitComment.bind(this)} />
+        onSubmit={this.handleSubmitComment} />
     )
   }
 }

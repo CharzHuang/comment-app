@@ -10,7 +10,7 @@ class CommentListContainer extends Component {
     onDeleteComment: PropTypes.func
   }
 
-  handleDeleteComment(index) {
+  handleDeleteComment = (index) => {
     if (this.props.onDeleteComment) {
       this.props.onDeleteComment(index)
     }
@@ -20,7 +20,7 @@ class CommentListContainer extends Component {
     return ( 
       <CommentList
         comments={this.props.comments}
-        onDeleteComment={this.handleDeleteComment.bind(this)} />
+        onDeleteComment={this.handleDeleteComment} />
     )
   }
 }

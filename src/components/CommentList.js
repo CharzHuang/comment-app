@@ -13,7 +13,7 @@ class CommentList extends Component {
     comments: []
   }
 
-  handleDeleteComment(index) {
+  handleDeleteComment = (index) => {
     if (this.props.onDeleteComment) {
       this.props.onDeleteComment(index)
     }
@@ -27,7 +27,7 @@ class CommentList extends Component {
             comment={comment}
             key={i}
             index={i}
-            onDeleteComment={ this.handleDeleteComment.bind(this) } />
+            onDeleteComment={ this.handleDeleteComment } />
         )}
       </div>
     )

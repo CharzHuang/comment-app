@@ -20,19 +20,19 @@ class CommentInput extends Component {
     }
   }
 
-  handleUserNameChange(event) {
+  handleUserNameChange = (event) => {
     this.setState({
       userName: event.target.value
     })
   }
 
-  handleContentChange(event) {
+  handleContentChange = (event) => {
     this.setState({
       content: event.target.value
     })
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
     if (this.props.onSubmit) {
       const { userName, content } = this.state
       this.props.onSubmit({ userName, content })
@@ -48,7 +48,7 @@ class CommentInput extends Component {
           <div className="comment-field-input">
             <input
               value={this.state.userName}
-              onChange={this.handleUserNameChange.bind(this)}/>
+              onChange={this.handleUserNameChange}/>
           </div>
         </div>
         <div className="comment-field">
@@ -56,11 +56,11 @@ class CommentInput extends Component {
           <div className="comment-field-input">
             <textarea
               value={this.state.content} 
-              onChange={this.handleContentChange.bind(this)}/>
+              onChange={this.handleContentChange}/>
           </div>
         </div>
         <div className="comment-field-button">
-          <button onClick={this.handleSubmit.bind(this)}>
+          <button onClick={this.handleSubmit}>
             Comment
           </button>
         </div>

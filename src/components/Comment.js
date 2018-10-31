@@ -9,7 +9,7 @@ class Comment extends Component {
     index: PropTypes.number
   }
 
-  handleDeleteComment() {
+  handleDeleteComment = () => {
     if (this.props.onDeleteComment) {
       this.props.onDeleteComment(this.props.index)
     }
@@ -21,9 +21,9 @@ class Comment extends Component {
         <div className="comment-user">
           <span>{ this.props.comment.userName } </span>-
         </div>
-        <p> { this.props.comment.content }</p>
+        <p>{ this.props.comment.content }</p>
         <span
-          onClick={ this.handleDeleteComment.bind(this) }
+          onClick={ this.handleDeleteComment }
           className="comment-delete">
           Delete
         </span>
