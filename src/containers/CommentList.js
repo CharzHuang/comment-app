@@ -5,7 +5,7 @@ import CommentList from "../components/CommentList";
 import { deleteComment } from "../store/reducers/comments";
 
 class CommentListContainer extends Component {
-  static PropTypes = {
+  static propTypes = {
     comments: PropTypes.array,
     onDeleteComment: PropTypes.func
   };

@@ -7,7 +7,7 @@ import logo from "../logo.svg";
 import "./Home.css";
 
 class HomePage extends Component {
-  static PropTypes = {
+  static propTypes = {
     env: PropTypes.string
   };
 
