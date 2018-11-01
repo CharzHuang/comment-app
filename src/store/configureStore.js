@@ -2,7 +2,7 @@ import { createStore, compose, applyMiddleware } from "redux";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import ReduxThunk from "redux-thunk";
 import { createBrowserHistory, createMemoryHistory } from "history";
-import commentsReducer from "./reducers/comments";
+import rootReducers from "./reducers";
 
 export const isServer = !(
   typeof window !== "undefined" &&
@@ -37,7 +37,7 @@ export default (url = "/") => {
   if (!isServer) delete window.__PRELOADED_STATE__;
 
   const store = createStore(
-    connectRouter(history)(commentsReducer),
+    connectRouter(history)(rootReducers),
     initialState,
     composedEnhancers
   );

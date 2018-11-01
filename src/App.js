@@ -1,16 +1,10 @@
-import React, { Component } from 'react'
-import CommentInput from './containers/CommentInput'
-import CommentList from './containers/CommentList'
+import React, { Component } from "react";
+import Routes from "./routes";
 
 class App extends Component {
   render() {
-    return (
-      <div className="wrapper">
-        <CommentInput />
-        <CommentList />
-      </div>
-    )
+    return <Routes />;
   }
 }
 
-export default App
+export default App;
