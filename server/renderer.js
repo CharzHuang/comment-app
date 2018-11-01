@@ -70,7 +70,7 @@ export default store => (req, res, next) => {
 
         // map required assets to script tags
         const extraChunks = extractAssets(manifest, modules).map(
-          c => `<script type="text/javascript" src="/${c}"></script>`
+          c => `<script type="text/javascript" src="${c}"></script>`
         );
 
         const helmet = Helmet.renderStatic();
