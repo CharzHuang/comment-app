@@ -15,15 +15,25 @@ import App from "../src/App";
 // import the manifest generated with the create-react-app build
 import manifest from "../build/asset-manifest.json";
 
-const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
+// function to extract assets from the manifest
+const extractAssets = (assets, chunks, type) =>
+  Object.keys(assets)
+    .filter(asset => chunks.indexOf(asset.replace(type, "")) > -1)
+    .map(k => assets[k]);
+
+const injectHTML = (
+  data,
+  { html, title, meta, body, styles, scripts, state }
+) => {
   data = data.replace("<html>", `<html ${html}>`);
   data = data.replace(/<title>.*?<\/title>/g, title);
   data = data.replace("</head>", `${meta}</head>`);
+  data = data.replace("</head>", `${styles.join("")}</head>`);
   data = data.replace(
     '<div id="root"></div>',
     `<div id="root">${body}</div><script>window.__PRELOADED_STATE__=${state}</script>`
   );
-  data = data.replace("</body>", scripts.join("") + "</body>");
+  data = data.replace("</body>", `${scripts.join("")}</body>`);
 
   return data;
 };
@@ -62,15 +72,12 @@ export default store => (req, res, next) => {
 
         res.end();
       } else {
-        // function to extract js assets from the manifest
-        const extractAssets = (assets, chunks) =>
-          Object.keys(assets)
-            .filter(asset => chunks.indexOf(asset.replace(".js", "")) > -1)
-            .map(k => assets[k]);
+        const cssChunks = extractAssets(manifest, modules, ".css").map(
+          style => `<link rel="stylesheet" type="text/css" href="${style}" />`
+        );
 
-        // map required assets to script tags
-        const extraChunks = extractAssets(manifest, modules).map(
-          c => `<script type="text/javascript" src="${c}"></script>`
+        const jsChunks = extractAssets(manifest, modules, ".js").map(
+          script => `<script type="text/javascript" src="${script}"></script>`
         );
 
         const helmet = Helmet.renderStatic();
@@ -80,7 +87,8 @@ export default store => (req, res, next) => {
           title: helmet.title.toString(),
           meta: helmet.meta.toString(),
           body: routeMarkup,
-          scripts: extraChunks,
+          styles: cssChunks,
+          scripts: jsChunks,
           state: serialize(store.getState(), { isJSON: true })
         });
 
