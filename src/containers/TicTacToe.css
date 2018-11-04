@@ -6,8 +6,13 @@ ul {
 .game {
   display: flex;
   flex-direction: row;
+  background-color: #282c34;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-.gameinfo {
-  margin-left: 20px;
+.game-info {
+  margin-left: 25px;
 }

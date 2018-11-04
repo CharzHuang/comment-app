@@ -101,9 +101,10 @@ code {
 .comment span {
   color: #00a3cf;
   font-style: italic;
+  margin-right: 8px;
 }
 
 .comment p {
   flex-grow: 1;
-  margin: 0;
+  margin: 0 0 0 8px;
 }
