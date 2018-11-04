@@ -15,9 +15,17 @@ const CommentPage = Loadable({
   modules: ["comments"]
 });
 
+const TicTacToe = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "tictoctoe" */ "../containers/TicTacToe"),
+  loading: () => null,
+  modules: ["tictactoe"]
+});
+
 export default () => (
   <Switch>
     <Route exact path="/" component={HomePage} />
     <Route path="/comments" component={CommentPage} />
+    <Route path="/game" component={TicTacToe} />
   </Switch>
 );

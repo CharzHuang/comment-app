@@ -27,6 +27,9 @@ class HomePage extends Component {
           <Link to="/comments" className="Home-link">
             Go & Comment →
           </Link>
+          <Link to="/game" className="Home-link">
+            Go & Play Game →
+          </Link>
         </header>
       </div>
     );
