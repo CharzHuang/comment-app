@@ -23,6 +23,7 @@ export default (state = initialState, action) => {
     }
     case JUMP_TO: {
       const step = action.payload;
+      if (step < 0 || step >= state.history.length) return state;
       return {
         ...state,
         step,

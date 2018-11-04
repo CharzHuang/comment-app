@@ -9,7 +9,6 @@ class TicTacToe extends Component {
   constructor(props) {
     super(props);
     this.handleClick.bind(this);
-    this.jumpTo.bind(this);
   }
 
   handleClick(i) {
@@ -26,13 +25,10 @@ class TicTacToe extends Component {
     this.props.newGameStep(newHistory);
   }
 
-  jumpTo(step) {
-    this.props.jumpTo(step);
-  }
-
   render() {
     const history = this.props.history;
-    const current = history[this.props.step];
+    const step = this.props.step;
+    const current = history[step];
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((_, move) => {
@@ -40,14 +36,16 @@ class TicTacToe extends Component {
 
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={() => this.props.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
 
     const status = winner
       ? `Winner is ${winner}`
-      : `Next player: ${this.props.xIsNext ? "X" : "O"}`;
+      : step === 9
+        ? "Game end in a draw"
+        : `Next player: ${this.props.xIsNext ? "X" : "O"}`;
 
     return (
       <div className="game">
