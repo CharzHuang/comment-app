@@ -1,53 +1,41 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { newGameStep, jumpTo } from "../store/reducers/tictactoe";
+
 import Board from "../components/Board";
 import "./TicTacToe.css";
 
-export default class TicTacToe extends Component {
+class TicTacToe extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      history: [
-        {
-          squares: []
-        }
-      ],
-      step: 0,
-      xIsNext: true
-    };
     this.handleClick.bind(this);
     this.jumpTo.bind(this);
   }
 
   handleClick(i) {
-    const history = this.state.history.slice(0, this.state.step + 1);
-    const current = history[this.state.step];
+    const history = this.props.history.slice(0, this.props.step + 1);
+    const current = history[this.props.step];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) return;
-    squares[i] = this.state.xIsNext ? "X" : "O";
-    this.setState({
-      history: history.concat([
-        {
-          squares
-        }
-      ]),
-      step: history.length,
-      xIsNext: !this.state.xIsNext
-    });
+    squares[i] = this.props.xIsNext ? "X" : "O";
+    const newHistory = history.concat([
+      {
+        squares
+      }
+    ]);
+    this.props.newGameStep(newHistory);
   }
 
   jumpTo(step) {
-    this.setState({
-      step,
-      xIsNext: step % 2 === 0
-    });
+    this.props.jumpTo(step);
   }
 
   render() {
-    const history = this.state.history;
-    const current = history[this.state.step];
+    const history = this.props.history;
+    const current = history[this.props.step];
     const winner = calculateWinner(current.squares);
 
-    const moves = history.map((step, move) => {
+    const moves = history.map((_, move) => {
       const desc = move ? `Jump to move #${move}` : "Jump to Game Start";
 
       return (
@@ -63,9 +51,9 @@ export default class TicTacToe extends Component {
       );
     });
 
-    let status = winner
+    const status = winner
       ? `Winner is ${winner}`
-      : `Next player: ${this.state.xIsNext ? "X" : "O"}`;
+      : `Next player: ${this.props.xIsNext ? "X" : "O"}`;
 
     return (
       <div className="game">
@@ -100,3 +88,17 @@ const calculateWinner = squares => {
   }
   return null;
 };
+
+const mapStateToProps = state => {
+  return state.tictactoe;
+};
+
+const mapDispatchToProps = {
+  newGameStep,
+  jumpTo
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TicTacToe);
